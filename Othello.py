@@ -56,7 +56,7 @@ class Othello:
     def is_playable(self, col, row):
         if out_of_bounds(col, row):
             return False
-        if self.board[col][row] != " ":
+        if self.board[row][col] != " ":
             #raise IndexError("Key Already There")
             return False
         
@@ -64,7 +64,18 @@ class Othello:
         if col < 0 or row < 0 or col >= self.col or row >= self.row:
             return True
         return False
-    
+
+    def flip(self, dir_col, dir_row, start_col, start_row, tile):
+        row = start_row
+        col = start_col
+
+        self.board[row][col] = tile
+
+        while self.out_of_bounds(col, row) == False and self.board[row][col] != " ":
+            self.board[row][col] = tile
+            row = row + dir_row
+            col = col + dir_col
+
     def is_flippable(self, dir_col, dir_row, start_col, start_row, target):
         if target == self.W:
             jump = self.B
@@ -74,16 +85,17 @@ class Othello:
         row = start_row + dir_row
         col = start_col + dir_col
 
-        if self.board[col][row] != jump:
+        if self.board[row][col] != jump:
             return False
 
         while True:
             if self.out_of_bounds(col, row):
                 return False
-            if self.board[col][row] == target:
-                return True
-            if self.board[col][row] == " ":
+            if self.board[row][col] == " ":
                 return False
+            if self.board[row][col] == target:
+                """Found Sandwich of tiles"""
+                return True
             row = row + dir_row
             col = col + dir_col
     
@@ -91,6 +103,8 @@ class Othello:
 x = Othello()
 print x
 print x.is_flippable(-1, 0, 5, 3, "B")
-print x.is_flippable(0, -1, 3, 5, "B")
-print x.is_flippable(0, 1, 3, 2, "W")
+x.flip(-1, 0, 5, 3, "B")
+print x
+#print x.is_flippable(0, -1, 3, 5, "B")
+#print x.is_flippable(0, 1, 3, 2, "W")
     

@@ -105,6 +105,10 @@ print x
 print x.is_flippable(-1, 0, 5, 3, "B")
 x.flip(-1, 0, 5, 3, "B")
 print x
+print "__________"
+print x.is_flippable(-1, 1, 5, 2, "W")
+x.flip(-1, 1, 5, 2, "W")
+print x
 #print x.is_flippable(0, -1, 3, 5, "B")
 #print x.is_flippable(0, 1, 3, 2, "W")
     

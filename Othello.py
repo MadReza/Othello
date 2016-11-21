@@ -61,16 +61,14 @@ class Othello:
             return False
         
     def out_of_bounds(self, col, row):
-        if col < 0 or row < 0 or col >=self.col or row>= self.row:
+        if col < 0 or row < 0 or col >= self.col or row >= self.row:
             return True
         return False
     
-    def is_flippable(self, dir_col, dir_row, start_row, start_col):
-        if self.board[start_col][start_row] == self.W:
-            target = self.W
+    def is_flippable(self, dir_col, dir_row, start_col, start_row, target):
+        if target == self.W:
             jump = self.B
         else:
-            target = self.B
             jump = self.W
 
         row = start_row + dir_row
@@ -80,7 +78,7 @@ class Othello:
             return False
 
         while True:
-            if out_of_bounds(col, row):
+            if self.out_of_bounds(col, row):
                 return False
             if self.board[col][row] == target:
                 return True
@@ -92,4 +90,7 @@ class Othello:
 
 x = Othello()
 print x
+print x.is_flippable(-1, 0, 5, 3, "B")
+print x.is_flippable(0, -1, 3, 5, "B")
+print x.is_flippable(0, 1, 3, 2, "W")
     

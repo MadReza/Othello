@@ -16,6 +16,8 @@ class Othello:
     B = "B"
     row = 8
     col = 8
+    BOARD_TOTAL_MOVES = row * col
+    cur_moves = 0
     
     def __init__(self):
         print "Othello start"
@@ -28,6 +30,7 @@ class Othello:
         self.board[4][4] = self.B
         self.board[3][4] = self.W
         self.board[4][3] = self.W
+        self.cur_moves = 4
 
     def __str__(self):
         s = "    0   1   2   3   4   5   6   7  " + "\n"
@@ -49,16 +52,35 @@ class Othello:
             self.turn = self.B
 
     def play(self, col, row):
-        if self.board[col][row] != " ":
-            #raise IndexError("Key Already There")
-            return False
+        if self.is_playable(col, row) == False:
+            return
+        for dir_col in range(-1, 2):
+            for dir_row in range(-1, 2):
+                if dir_col != 0 or dir_row != 0:
+                    if (self.is_flippable(dir_col, dir_row, col, row, self.turn)):
+                        self.flip(dir_col, dir_row, col, row, self.turn)
+        self.cur_moves = self.cur_moves + 1
+        self.__switch_turn__()
+
 
     def is_playable(self, col, row):
-        if out_of_bounds(col, row):
+        if self.out_of_bounds(col, row):
             return False
         if self.board[row][col] != " ":
             #raise IndexError("Key Already There")
             return False
+        
+        for dir_col in range(-1, 2):
+            for dir_row in range(-1, 2):
+                if dir_col != 0 or dir_row != 0:
+                    if (self.is_flippable(dir_col, dir_row, col, row, self.turn)):
+                        return True
+        return False
+
+    def end_game(self):
+        if self.cur_moves == self.BOARD_TOTAL_MOVES:
+            return True
+        return False
         
     def out_of_bounds(self, col, row):
         if col < 0 or row < 0 or col >= self.col or row >= self.row:
@@ -102,13 +124,5 @@ class Othello:
 
 x = Othello()
 print x
-print x.is_flippable(-1, 0, 5, 3, "B")
-x.flip(-1, 0, 5, 3, "B")
-print x
-print "__________"
-print x.is_flippable(-1, 1, 5, 2, "W")
-x.flip(-1, 1, 5, 2, "W")
-print x
-#print x.is_flippable(0, -1, 3, 5, "B")
-#print x.is_flippable(0, 1, 3, 2, "W")
-    
+
+

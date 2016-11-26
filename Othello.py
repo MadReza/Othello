@@ -86,7 +86,7 @@ class Othello:
                         return True
         return False
 
-    def end_game(self):
+    def game_finished(self):
         if self.cur_moves == self.BOARD_TOTAL_MOVES:
             return True
         return False
@@ -140,4 +140,5 @@ class Othello:
 x = Othello()
 print x
 print x.get_possible_moves()
+
 

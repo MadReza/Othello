@@ -166,3 +166,39 @@ print x
 print x.get_possible_moves()
 
 x.print_history(True)
+
+def player_choice():
+    correct_choice = True
+    while correct_choice == True:
+        print "Please select one of the following to start a game:"
+        print "0 => Player vs Player"
+        print "1 => Computer vs Computer"
+        print "2 => Player vs Computer"
+        choice = int(raw_input("Selection (0, 1, 2): "))
+        if choice >= 0 and choice <= 2:
+            correct_choice = False
+    return choice
+
+def player_vs_player():
+    return False
+
+def player_vs_ai():
+    return False
+
+def ai_vs_ai():
+    return False
+
+if __name__ == "__main__":
+    print "Welcome to Othello Game"
+    game = Othello()
+
+    choice = player_choice()
+
+    if choice == 0: #TODO replace this junk with a better design
+        player_vs_player()
+    elif choice == 1:
+        player_vs_ai()
+    else:
+        ai_vs_ai()
+    
+

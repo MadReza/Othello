@@ -23,6 +23,7 @@ class Othello:
         print "Othello start"
         self.__reset_board__()
         self.turn = self.B
+        self.score = 0   #+1 for Black Pieces -1 for White Pieces.
 
     def __reset_board__(self):
         self.board = [[' ' for x in range(self.col)] for y in range(self.row)]
@@ -81,24 +82,6 @@ class Othello:
         if self.cur_moves == self.BOARD_TOTAL_MOVES:
             return True
         return False
-
-    def winner(self):
-        score = 0
-
-        if self.end_game() == False:
-            return #Can't determine winner yet.
-        
-        for row in range(0, 8):
-            for col in range(0, 8):
-                if self.board[row][col] == self.W:
-                    score = score + 1
-                else
-                    score = score - 1
-        if score > 0:
-            return self.W
-        elif score < 0 :
-            return self.B
-        return "T"  #Tie
         
     def out_of_bounds(self, col, row):
         if col < 0 or row < 0 or col >= self.col or row >= self.row:
@@ -109,12 +92,20 @@ class Othello:
         row = start_row
         col = start_col
 
-        self.board[row][col] = tile
+        self.__flip_and_update(row, col, tile)
 
         while self.out_of_bounds(col, row) == False and self.board[row][col] != " ":
-            self.board[row][col] = tile
+            self.__flip_and_update(row, col, tile)
             row = row + dir_row
             col = col + dir_col
+
+    def __flip_and_update__(self, row, col, tile):
+        """Flip the current piece and update relevant attributes"""
+        self.board[row][col] = tile
+        if tile == self.B:
+            self.score = self.score + 1
+        else:
+            self.score = self.score - 1
 
     def is_flippable(self, dir_col, dir_row, start_col, start_row, target):
         if target == self.W:

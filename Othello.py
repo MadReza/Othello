@@ -16,7 +16,7 @@ class Othello:
     B = "B"
     row = 8
     col = 8
-    BOARD_TOTAL_MOVES = row * col
+    BOARD_TOTAL_MOVES = row * col    
     cur_moves = 0
     
     def __init__(self):
@@ -81,6 +81,24 @@ class Othello:
         if self.cur_moves == self.BOARD_TOTAL_MOVES:
             return True
         return False
+
+    def winner(self):
+        score = 0
+
+        if self.end_game() == False:
+            return #Can't determine winner yet.
+        
+        for row in range(0, 8):
+            for col in range(0, 8):
+                if self.board[row][col] == self.W:
+                    score = score + 1
+                else
+                    score = score - 1
+        if score > 0:
+            return self.W
+        elif score < 0 :
+            return self.B
+        return "T"  #Tie
         
     def out_of_bounds(self, col, row):
         if col < 0 or row < 0 or col >= self.col or row >= self.row:

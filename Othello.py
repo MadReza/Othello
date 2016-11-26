@@ -30,7 +30,7 @@ class Othello:
         self.board[3][4] = self.W
         self.board[4][3] = self.W
         self.cur_moves = 4
-        self.history = ()   #Takes Tuples of (x,y) values with Black be first
+        self.history = []   #Takes Tuples of (x,y) values with Black be first
         self.turn = self.B
         self.score = 0   #+1 for Black Pieces -1 for White Pieces.
         
@@ -47,6 +47,23 @@ class Othello:
         s = s + "  ---------------------------------"
         return s
 
+    def print_history(self, display_board):
+        hist = self.history
+        self.__reset_board__()
+
+        print "History of Game: "
+
+        if display_board:
+            print self;
+
+        while hist:
+            col, row = hist.pop(0)
+            print self.turn + " plays at col: " + str(col) + " row: " + str(row)
+            self.play(col, row)
+            if display_board:
+                print self
+            
+
     def __switch_turn__(self):
         if self.turn == self.B:
             self.turn = self.W
@@ -62,6 +79,7 @@ class Othello:
                     if (self.is_flippable(dir_col, dir_row, col, row, self.turn)):
                         self.flip(dir_col, dir_row, col, row, self.turn)
         self.cur_moves = self.cur_moves + 1
+        self.history.append((col, row))
         self.__switch_turn__()
 
     def get_possible_moves(self):
@@ -100,10 +118,10 @@ class Othello:
         row = start_row
         col = start_col
 
-        self.__flip_and_update(row, col, tile)
+        self.__flip_and_update__(row, col, tile)
 
         while self.out_of_bounds(col, row) == False and self.board[row][col] != " ":
-            self.__flip_and_update(row, col, tile)
+            self.__flip_and_update__(row, col, tile)
             row = row + dir_row
             col = col + dir_col
 
@@ -140,5 +158,11 @@ class Othello:
 x = Othello()
 print x
 print x.get_possible_moves()
+x.play(2,4)
+print x
+print x.get_possible_moves()
+x.play(2,5)
+print x
+print x.get_possible_moves()
 
-
+x.print_history(True)

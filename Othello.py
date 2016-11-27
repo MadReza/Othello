@@ -75,7 +75,7 @@ class Othello:
             return
         for dir_col in range(-1, 2):
             for dir_row in range(-1, 2):
-                if dir_col != 0 or dir_row != 0:
+                if dir_col != 0 or dir_row != 0: #if moving to the contratry of not moving
                     if (self.is_flippable(dir_col, dir_row, col, row, self.turn)):
                         self.flip(dir_col, dir_row, col, row, self.turn)
         self.cur_moves = self.cur_moves + 1
@@ -115,18 +115,26 @@ class Othello:
         return False
 
     def flip(self, dir_col, dir_row, start_col, start_row, tile):
+        """TODO: Switch to internal function
+           Should only be called after checked"""
         row = start_row
         col = start_col
 
-        self.__flip_and_update__(row, col, tile)
+        self.__flip_and_update__(col, row, tile)    #Flip the position they dropped
+        row = row + dir_row
+        col = col + dir_col
 
-        while self.out_of_bounds(col, row) == False and self.board[row][col] != " ":
-            self.__flip_and_update__(row, col, tile)
+        while self.out_of_bounds(col, row) == False and self.board[row][col] != tile:
+            """Do this while not out of bounds and haven't reached the sandiwch tile(The other bun"""
+            self.__flip_and_update__(col, row, tile)
             row = row + dir_row
             col = col + dir_col
 
-    def __flip_and_update__(self, row, col, tile):
+    def __flip_and_update__(self, col, row, tile):
         """Flip the current piece and update relevant attributes"""
+        if self.board[row][col] == tile:
+            return
+        
         self.board[row][col] = tile
         if tile == self.B:
             self.score = self.score + 1
@@ -135,7 +143,7 @@ class Othello:
 
     def is_flippable(self, dir_col, dir_row, start_col, start_row, target):
         if target == self.W:
-            jump = self.B
+            jump = self.B     #the player to jump over
         else:
             jump = self.W
 
@@ -180,7 +188,19 @@ def player_choice():
     return choice
 
 def player_vs_player():
-    return False
+
+    while game.game_finished() == False:
+        print game
+        if game.turn == game.B:
+            p = "Black"
+        else:
+            p = "White"
+        print "Player " + p + " turn to play!"
+        print "Possible moves: " + str(game.get_possible_moves())
+        col = int(raw_input("Select coloumn: "))
+        row = int(raw_input("Select row: "))
+        game.play(col, row)
+    
 
 def player_vs_ai():
     return False
@@ -200,5 +220,7 @@ if __name__ == "__main__":
         player_vs_ai()
     else:
         ai_vs_ai()
-    
+
+    print "History of game:"
+    game.history(False)
 

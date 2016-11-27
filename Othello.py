@@ -1,6 +1,7 @@
 from Player import *
+from AI_Othello import *
 
-print "Othello Start"
+print "Othello Start***"
 
 print "Display: "
 
@@ -14,7 +15,7 @@ print "________________"
 class Othello:
     """Othello Game Engine"""
 
-    W = "W"
+    W = "W"     #TODO: Renamed W and B with better names
     B = "B"
     row = 8     #Eventually upgrade to adjustable board
     col = 8
@@ -22,19 +23,20 @@ class Othello:
      
     
     def __init__(self):
-        print "Othello start"
         self.__reset_board__()
 
     @classmethod
-    def pre_built(self, board, turn):
+    def pre_built(cls, board, turn):
         """When you have a setup you want to load"""
         """TODO: Later with board being changable will require a verifier"""
-        self.__reset_board__()
-        self.board = board
-        self.turn = turn
+        new_game = cls()
+        new_game.__reset_board__()
+        new_game.board = [[board[col][row] for row in range(new_game.row)] for col in range(new_game.col)]
+        new_game.turn = turn
+        return new_game
 
     def __reset_board__(self):
-        self.board = [[' ' for x in range(self.col)] for y in range(self.row)]
+        self.board = [[' ' for row in range(self.row)] for col in range(self.col)]
         self.board[3][3] = self.B
         self.board[4][4] = self.B
         self.board[3][4] = self.W
@@ -171,44 +173,41 @@ class Othello:
                 return True
             row = row + dir_row
             col = col + dir_col
-    
 
-x = Othello()
-print x
-print x.get_possible_moves()
-x.play(2,4)
-print x
-print x.get_possible_moves()
-x.play(2,5)
-print x
-print x.get_possible_moves()
-
-x.print_history(True)
 
 def player_choice():
     correct_choice = True
     while correct_choice == True:
         print "Please select one of the following to start a game:"
         print "0 => Player vs Player"
-        print "1 => Computer vs Computer"
-        print "2 => Player vs Computer"
+        print "1 => Player vs Computer"
+        print "2 => Computer vs Computer"
+
         choice = int(raw_input("Selection (0, 1, 2): "))
         if choice >= 0 and choice <= 2:
             correct_choice = False
     return choice
 
-def player_vs_player():
-    #Doesn't matter which human player is currently white or black
-    b_player = Hooman(game, game.B)
-    w_player = Hooman(game, game.W)
+def PlayPlay(b_player, w_player):
+    """TODO: RENAME this crap"""
     while game.game_finished() == False:
         print game
         b_player.play()
         print game
         w_player.play()    
 
+def player_vs_player():
+    #Doesn't matter which human player is currently white or black
+    b_player = Hooman(game, game.B)
+    w_player = Hooman(game, game.W)
+    PlayPlay(b_player, w_player)
+
 def player_vs_ai():
-    return False
+    #TODO: Figure who is First Player(Black) or Second Player(White)
+    b_player = Hooman(game, game.B)
+    ai = Greed_AI(game, game.W)  #TODO: Allow selecting AI
+    w_player = Computer(game, game.W, ai)
+    PlayPlay(b_player, w_player)       
 
 def ai_vs_ai():
     return False

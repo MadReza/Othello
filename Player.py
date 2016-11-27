@@ -6,7 +6,7 @@ class Player(object):
         self.player = player
 
     def play():
-        raise NotImplementedError("Inheritator should implement this")
+        raise NotImplementedError("Inheritator forgot to implement this")
 
 class Hooman(Player):
 
@@ -24,9 +24,12 @@ class Hooman(Player):
 class Computer(Player):
     
     def __init__(self, game, player, AI):
-        super(Hooman, self).__init__(game, player)
+        super(Computer, self).__init__(game, player)
         self.AI = AI
 
     def play(self):
         #initiate AI selected here
+        move = self.AI.get_next_move()
+        col = move[0]
+        row = move[1]
         self.game.play(col, row)

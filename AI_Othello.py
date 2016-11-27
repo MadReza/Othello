@@ -11,6 +11,17 @@ class AI_Othello(object):
     def get_next_move(self):
         raise NotImplementedError("Inheritator forgot to implement this")
 
+
+class MinMax_AI(AI_Othello):
+    """MinMax using heuristic TO ADD HERE"""
+
+    def __init__(self, game, AI_player):
+        """TODO: Not great to get the game as this shouldn't be changing anything"""
+        super(MinMax_AI, self).__init__(game, AI_player)
+
+    def get_next_move(self):
+        pass
+
 class Greedy_AI(AI_Othello):
     """Greedy in terms of flips for each turn. The more you can flip the better for that turn"""
 

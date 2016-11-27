@@ -1,3 +1,5 @@
+from Player import *
+
 print "Othello Start"
 
 print "Display: "
@@ -196,19 +198,14 @@ def player_choice():
     return choice
 
 def player_vs_player():
-
+    #Doesn't matter which human player is currently white or black
+    b_player = Hooman(game, game.B)
+    w_player = Hooman(game, game.W)
     while game.game_finished() == False:
         print game
-        if game.turn == game.B:
-            p = "Black"
-        else:
-            p = "White"
-        print "Player " + p + " turn to play!"
-        print "Possible moves: " + str(game.get_possible_moves())
-        col = int(raw_input("Select coloumn: "))
-        row = int(raw_input("Select row: "))
-        game.play(col, row)
-    
+        b_player.play()
+        print game
+        w_player.play()    
 
 def player_vs_ai():
     return False

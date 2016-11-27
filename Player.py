@@ -13,7 +13,7 @@ class Hooman(Player):
     def __init__(self, game, player):
         super(Hooman, self).__init__(game, player)
 
-    def play():
+    def play(self):
         print "Player " + self.player + " turn to play!"
         print "Possible moves: " + str(self.game.get_possible_moves())
         col = int(raw_input("Select coloumn: "))
@@ -27,6 +27,6 @@ class Computer(Player):
         super(Hooman, self).__init__(game, player)
         self.AI = AI
 
-    def play():
+    def play(self):
         #initiate AI selected here
         self.game.play(col, row)

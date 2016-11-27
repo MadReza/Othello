@@ -33,7 +33,18 @@ class Othello:
         new_game.__reset_board__()
         new_game.board = [[board[col][row] for row in range(new_game.row)] for col in range(new_game.col)]
         new_game.turn = turn
+        new_game.__recount_score__()
         return new_game
+
+    def __recount_score__(self):
+        """Here for when creating a specific board"""
+        self.score = 0
+        for row in self.board:
+            for val in row: #Val is the location within the board
+                if val == self.B:
+                    self.score = self.score + 1
+                elif val == self.W:
+                    self.score = self.score - 1
 
     def __reset_board__(self):
         self.board = [[' ' for row in range(self.row)] for col in range(self.col)]
@@ -144,14 +155,22 @@ class Othello:
 
     def __flip_and_update__(self, col, row, tile):
         """Flip the current piece and update relevant attributes"""
-        if self.board[row][col] == tile:
-            return
-        
-        self.board[row][col] = tile
-        if tile == self.B:
-            self.score = self.score + 1
+        if self.board[row][col] == tile:    #No flip
+            return        
+
+        if self.board[row][col] == self.B:
+            #Switching from Black to White
+            self.score = self.score - 2
+        elif self.board[row][col] == self.W:
+            #Switching from White to Black
+            self.score = self.score + 2
         else:
-            self.score = self.score - 1
+            #empty slot Add or Remove 1 depending which tile we adding
+            if tile == self.B:
+                self.score = self.score + 1
+            else:
+                self.score = self.score - 1
+        self.board[row][col] = tile
 
     def is_flippable(self, dir_col, dir_row, start_col, start_row, target):
         if target == self.W:
@@ -205,7 +224,7 @@ def player_vs_player():
 def player_vs_ai():
     #TODO: Figure who is First Player(Black) or Second Player(White)
     b_player = Hooman(game, game.B)
-    ai = Greed_AI(game, game.W)  #TODO: Allow selecting AI
+    ai = Greedy_AI(game, game.W)  #TODO: Allow selecting AI
     w_player = Computer(game, game.W, ai)
     PlayPlay(b_player, w_player)       
 

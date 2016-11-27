@@ -11,17 +11,19 @@ class AI_Othello(object):
     def get_next_move(self):
         raise NotImplementedError("Inheritator forgot to implement this")
 
-class Greed_AI(AI_Othello):
+class Greedy_AI(AI_Othello):
     """Greedy in terms of flips for each turn. The more you can flip the better for that turn"""
 
     def __init__(self, game, AI_player):
         """TODO: Not great to get the game as this shouldn't be changing anything"""
-        super(Greed_AI, self).__init__(game, AI_player)
+        super(Greedy_AI, self).__init__(game, AI_player)
 
     def get_next_move(self):
         possible_moves = self.game.get_possible_moves()
-        best_move_score = self.game.score #Set to current initial score
+        best_move_score = self.game.score #Set to current initial score, Assumption that moves will always be better
         best_move = () #empty tuple to store best move
+
+        print "possible moves: ", possible_moves
 
         for move in possible_moves:
             col = move[0]

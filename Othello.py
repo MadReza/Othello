@@ -23,6 +23,14 @@ class Othello:
         print "Othello start"
         self.__reset_board__()
 
+    @classmethod
+    def pre_built(self, board, turn):
+        """When you have a setup you want to load"""
+        """TODO: Later with board being changable will require a verifier"""
+        self.__reset_board__()
+        self.board = board
+        self.turn = turn
+
     def __reset_board__(self):
         self.board = [[' ' for x in range(self.col)] for y in range(self.row)]
         self.board[3][3] = self.B

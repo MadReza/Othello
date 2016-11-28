@@ -259,7 +259,7 @@ def player_vs_ai():
 def ai_vs_ai():
     #Doesn't matter which computer is which
     b_player = Computer(game, game.B, Greedy_AI(game, game.B))
-    w_player = Computer(game, game.W, Greedy_AI(game, game.W))
+    w_player = Computer(game, game.W, MinMax_AI(game, game.W))
     PlayPlay(b_player, w_player)
     return False
 

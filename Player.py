@@ -19,7 +19,7 @@ class Hooman(Player):
         print "Possible moves: " + str(possible_moves)
         if len(possible_moves) == 0:
             print "No moves possible!"
-            return
+            return 1
         col = int(raw_input("Select coloumn: "))
         row = int(raw_input("Select row: "))
         #TODO: Add loop to validate move
@@ -37,7 +37,7 @@ class Computer(Player):
         possible_moves = self.game.get_possible_moves()
         if len(possible_moves) == 0:
             print "No moves possible:"
-            return
+            return 1
         move = self.AI.get_next_move()
         col = move[0]
         row = move[1]

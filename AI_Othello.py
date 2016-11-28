@@ -19,7 +19,7 @@ class Rnd_AI(AI_Othello):
         super(Rnd_AI, self).__init__(game, AI_player)
 
     def get_next_move(self):
-        game_board = Othello.pre_built(self.game.board, player)
+        game_board = Othello.pre_built(self.game.board, self.AI_player)
         game_moves = game_board.get_possible_moves()
 
         return game_moves[0]

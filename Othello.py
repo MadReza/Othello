@@ -215,11 +215,14 @@ def PlayPlay(b_player, w_player):
     while game.game_finished() == False:
         print "==================================="
         print game
-        b_player.play()
+        not_moved = b_player.play()
         print "==================================="
         print game
-        w_player.play()
-        Winner()
+        not_moved = not_moved + w_player.play()
+
+        if not_moved = 2: #no more moves possible
+            break
+    Winner()
 
 def Winner():
     print "==================================="
@@ -249,17 +252,35 @@ def player_vs_player():
     w_player = Hooman(game, game.W)
     PlayPlay(b_player, w_player)
 
+def Pick_AI(p):
+    print "Please Choose an AI for player:", p
+    print "0: MinMax with board score heuristic"
+    print "1: Greedy AI"
+    print "2: Rnd AI to miss with your head"
+    ai = int(raw_input("Enter(0,1,2):"))
+
+    if ai == 0:
+        return MinMax_AI(game, p)
+    if ai == 1:
+        return Greedy_AI(game, p)
+    return Rnd_AI(game, p)
+    
 def player_vs_ai():
     #TODO: Figure who is First Player(Black) or Second Player(White)
-    b_player = Hooman(game, game.B)
-    ai = Greedy_AI(game, game.W)  #TODO: Allow selecting AI
-    w_player = Computer(game, game.W, ai)
+    ai_first = raw_input("Would you like the AI to start ?('y' for yes):")
+    
+    if ai_first == "y":
+        b_player = Computer(game, game.B, Pick_AI(game.B))
+        w_player = Hooman(game, game.W)
+    else:
+        b_player = Hooman(game, game.B)
+        w_player = Computer(game, game.W, Pick_AI(game.W))
     PlayPlay(b_player, w_player)       
 
 def ai_vs_ai():
     #Doesn't matter which computer is which
-    b_player = Computer(game, game.B, Greedy_AI(game, game.B))
-    w_player = Computer(game, game.W, MinMax_AI(game, game.W))
+    b_player = Computer(game, game.B, Pick_AI(game.B))
+    w_player = Computer(game, game.W, Pick_AI(game.W))
     PlayPlay(b_player, w_player)
     return False
 

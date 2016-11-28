@@ -1,16 +1,8 @@
 from Player import *
 from AI_Othello import *
+import os
 
 print "Othello Start***"
-
-print "Display: "
-
-print "________________"
-print "[ O | O | O | O ]"
-print "[ 0 | W | B | O ]"
-print "[ 0 | B | W | O ]"
-print "[ O | O | O | O ]"
-print "________________"
 
 class Othello:
     """Othello Game Engine"""
@@ -20,7 +12,6 @@ class Othello:
     row = 8     #Eventually upgrade to adjustable board
     col = 8
     BOARD_TOTAL_MOVES = row * col    
-     
     
     def __init__(self):
         self.__reset_board__()
@@ -36,6 +27,14 @@ class Othello:
         new_game.__recount_score__()
         return new_game
 
+    def count_tiles(self, tile):
+        count = 0
+        for row in self.board:
+            for val in row:
+                if val == tile:
+                    count = count + 1
+        return count
+    
     def __recount_score__(self):
         """Here for when creating a specific board"""
         self.score = 0
@@ -210,11 +209,36 @@ def player_choice():
 def PlayPlay(b_player, w_player):
     """TODO: RENAME this crap"""
     while game.game_finished() == False:
+        print "==================================="
         print game
         b_player.play()
+        print "==================================="
         print game
-        w_player.play()    
+        w_player.play()
+        Winner()
 
+def Winner():
+    print "==================================="
+    print "============GAME OVER=============="
+    print "==================================="
+    if game.score > 0:
+        winner = "Black"
+    elif game.score < 0:
+        winner = "White"
+    else:
+        print "Game ended in a Tie!!"
+        return
+
+    print "Player", winner, "won the game!!"
+    print "The Final Board"
+    print game
+
+def history():
+    print
+    h = raw_input("Would you like to see the history(y for yes):")
+    if h == "y":
+        game.print_history(False)
+    
 def player_vs_player():
     #Doesn't matter which human player is currently white or black
     b_player = Hooman(game, game.B)
@@ -229,6 +253,10 @@ def player_vs_ai():
     PlayPlay(b_player, w_player)       
 
 def ai_vs_ai():
+    #Doesn't matter which computer is which
+    b_player = Computer(game, game.B, Greedy_AI(game, game.B))
+    w_player = Computer(game, game.W, Greedy_AI(game, game.W))
+    PlayPlay(b_player, w_player)
     return False
 
 if __name__ == "__main__":
@@ -244,6 +272,4 @@ if __name__ == "__main__":
     else:
         ai_vs_ai()
 
-    print "History of game:"
-    game.history(False)
-
+    history()

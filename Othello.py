@@ -84,7 +84,11 @@ class Othello:
             self.play(col, row)
             if display_board:
                 print self
-            
+
+    def get_opponent(self, player):
+        if player == self.B:
+            return self.W
+        return self.B
 
     def __switch_turn__(self):
         if self.turn == self.B:

@@ -25,6 +25,7 @@ class Hooman(Player):
         #TODO: Add loop to validate move
         print "Player:", self.player, "Playing: col:", col, "row:", row
         self.game.play(col, row)
+        return 0
 
 class Computer(Player):
     
@@ -43,3 +44,4 @@ class Computer(Player):
         row = move[1]
         print "Computer:", self.player, "Playing: col:",col, "row:", row
         self.game.play(col, row)
+        return 0

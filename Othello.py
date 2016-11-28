@@ -220,7 +220,7 @@ def PlayPlay(b_player, w_player):
         print game
         not_moved = not_moved + w_player.play()
 
-        if not_moved = 2: #no more moves possible
+        if not_moved == 2: #no more moves possible
             break
     Winner()
 

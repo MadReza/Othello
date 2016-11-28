@@ -15,7 +15,11 @@ class Hooman(Player):
 
     def play(self):
         print "Player " + self.player + " turn to play!"
-        print "Possible moves: " + str(self.game.get_possible_moves())
+        possible_moves = self.game.get_possible_moves()
+        print "Possible moves: " + str(possible_moves)
+        if len(possible_moves) == 0:
+            print "No moves possible:"
+            return
         col = int(raw_input("Select coloumn: "))
         row = int(raw_input("Select row: "))
         #TODO: Add loop to validate move
@@ -29,6 +33,10 @@ class Computer(Player):
 
     def play(self):
         #initiate AI selected here
+        possible_moves = self.game.get_possible_moves()
+        if len(possible_moves) == 0:
+            print "No moves possible:"
+            return
         move = self.AI.get_next_move()
         col = move[0]
         row = move[1]
